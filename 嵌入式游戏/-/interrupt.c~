@@ -1,0 +1,57 @@
+#include "s3c24xx.h"
+#include "framebuffer.h"
+extern int m;
+extern int fanhui;
+void ClearScr(UINT32 color);
+extern int weizhi;
+extern int fen;
+extern int n;
+void EINT_Handle()
+{
+    unsigned long oft = INTOFFSET;
+    unsigned long val = EINTPEND;
+    switch( oft )
+    {
+        case 0: 
+        { 
+		if(weizhi==0)fen++;
+		else fen--;
+		break;
+        }
+        
+        // S3被按下
+        case 2:
+        {  
+		if(weizhi==1)fen++;
+		else fen--;
+		break;
+	     
+        }
+
+        // K4被按下
+        case 5:
+        {
+		
+		 if(val&(1<<11))
+		{ if(weizhi==2)fen++;
+		  else fen--;
+		  break;
+	    	}
+	else if(val&(1<<19))
+	    	 { 	
+		m=m+1;
+		m=m%4;
+ break;
+}
+	
+        }
+        default:
+           break;
+   
+    }
+    if( oft == 5 ) 
+       { EINTPEND = (1<<11);   // EINT8_23合用IRQ5
+	EINTPEND = (1<<19);}
+    SRCPND = 1<<oft;
+    INTPND = 1<<oft;
+}

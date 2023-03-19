@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include "serial.h"
+#include "lcdlib.h"
+#include "s3c24xx.h"
+#include "lcddrv.h"
+#include "framebuffer.h"
+int fanhui;
+extern int fen;
+int m=0;
+void huatu();
+void start();
+void game ();
+int main()
+{
+    uart0_init();  
+    Lcd_Port_Init();                     
+    Tft_Lcd_Init(MODE_TFT_16BIT_480272); 
+    Lcd_PowerEnable(0, 1);             
+    Lcd_EnvidOnOff(1); 
+    ClearScr(0x0);
+	int ijk;
+    while (1)
+    {for(ijk=0;ijk<100000;ijk++){;}
+switch(m)
+{case 1:
+		{
+                huatu();
+		break;	
+		}
+case 2:{start();
+	break;}
+case 3:{ game();
+	break;}
+case 4:{if(fen>20) 
+	winwin();
+	else  lossloss();
+	break;}
+default:
+           break;
+}
+}
+Lcd_EnvidOnOff(0); 
+    return 0;
+}
